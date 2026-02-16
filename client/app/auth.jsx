@@ -2,40 +2,76 @@ import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
 import { router } from "expo-router";
 
 import { COLORS } from "../colors";
+import { useState } from "react";
 
 export default function Auth() {
+  // 0 = Logga in, 1 = Registrera nytt konto
+  const [authType, setauthType] = useState(0);
+
   return (
     <View style={styles.main}>
-      {/* Auth kortet */}
-      <View style={styles.authCard}>
-        <View style={styles.section}>
-          {/* Header */}
-          <Text style={styles.h1}>Logga in</Text>
+      {authType == 0 ? (
+        // Auth kortet
+        <View style={styles.authCard}>
+          <View style={styles.section}>
+            {/* Header */}
+            <Text style={styles.h1}>Logga in</Text>
 
-          {/* Inputs */}
-          <TextInput style={styles.input} placeholder="Email" />
-          <TextInput style={styles.input} placeholder="Lösenord" />
+            {/* Inputs */}
+            <TextInput style={styles.input} placeholder="Email" />
+            <TextInput style={styles.input} placeholder="Lösenord" />
 
-          {/* Glömt lösen */}
-          <Pressable style={styles.forgotPassword}>
-            <Text style={styles.p}>Glömt lösenord?</Text>
-          </Pressable>
+            {/* Glömt lösen */}
+            <Pressable style={styles.forgotPassword}>
+              <Text style={styles.p}>Glömt lösenord?</Text>
+            </Pressable>
+          </View>
+
+          <View style={styles.section}>
+            {/* Auth knapp */}
+            <Pressable style={styles.authButton}>
+              <Text>Logga in</Text>
+            </Pressable>
+
+            {/* Inget konto / Har redan konto */}
+            <Pressable
+              style={styles.changeAuthType}
+              onPress={() => setauthType(1)}
+            >
+              <Text style={styles.p}>
+                Har du inget konto? Registrera dig här.
+              </Text>
+            </Pressable>
+          </View>
         </View>
+      ) : (
+        <View style={styles.authCard}>
+          <View style={styles.section}>
+            {/* Header */}
+            <Text style={styles.h1}>Registrera</Text>
 
-        <View style={styles.section}>
-          {/* Auth knapp */}
-          <Pressable style={styles.authButton}>
-            <Text>Logga in</Text>
-          </Pressable>
+            {/* Inputs */}
+            <TextInput style={styles.input} placeholder="Namn" />
+            <TextInput style={styles.input} placeholder="Email" />
+            <TextInput style={styles.input} placeholder="Lösenord" />
+          </View>
 
-          {/* Inget konto / Har redan konto */}
-          <Pressable style={styles.changeAuthType}>
-            <Text style={styles.p}>
-              Har du inget konto? Registrera dig här.
-            </Text>
-          </Pressable>
+          <View style={styles.section}>
+            {/* Auth knapp */}
+            <Pressable style={styles.authButton}>
+              <Text>Skapa konto</Text>
+            </Pressable>
+
+            {/* Inget konto / Har redan konto */}
+            <Pressable
+              style={styles.changeAuthType}
+              onPress={() => setauthType(0)}
+            >
+              <Text style={styles.p}>Har du redan ett konto? Logga in</Text>
+            </Pressable>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 }
